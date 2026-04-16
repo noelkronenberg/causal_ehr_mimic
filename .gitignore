@@ -83,3 +83,8 @@ cachedir/
 .logs/
 # Jupyter
 **/*.ipynb_checkpoints/
+
+# Data and outputs
+data/
+docs/source/_static/img/
+cachedir/

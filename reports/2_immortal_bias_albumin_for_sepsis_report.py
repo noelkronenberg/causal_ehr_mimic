@@ -1,4 +1,5 @@
 # %%
+import sys
 import re
 import numpy as np
 import pandas as pd
@@ -26,9 +27,7 @@ COHORT_NAME2LABEL = {
 IS_MAIN_FIGURE = True
 SHARE_X_AXIS = True
 # %%
-# expe_name = "immortal_time_bias_double_robust_forest_agg_last__bs_50"
-expe_name = "immortal_time_bias_double_robust_forest_agg_first_last__bs_30"
-# expe_name = "immortal_time_bias_double_robust_forest_agg_first_last"
+expe_name = sys.argv[1]
 results = pd.read_parquet(DIR2EXPERIENCES / expe_name / "logs")
 # results = add_rct_gold_standard_line(results)
 # Create nice labels for forest plot

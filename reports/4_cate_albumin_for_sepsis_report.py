@@ -1,4 +1,5 @@
 # %%
+import sys
 import numpy as np
 import pandas as pd
 
@@ -9,11 +10,9 @@ from caumim.constants import *
 import forestplot as fp
 
 from caumim.reports_utils import hist_plot_binary_treatment_hte, add_albumin_label
-%load_ext autoreload
-%autoreload 2
 
 # %%
-cohort_name = "cate_estimates_20230718_w_septic_shock__bs_10"
+cohort_name = sys.argv[1]
 ### For IP matching, interesting results with RF which seems to overfit the data and results are dependents on the aggregation strategy.
 results = pd.read_parquet(
     DIR2EXPERIENCES / "albumin_for_sepsis__obs_1d" / cohort_name / "logs"

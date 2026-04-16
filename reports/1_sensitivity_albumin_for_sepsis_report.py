@@ -1,4 +1,5 @@
 # %%
+import sys
 import numpy as np
 import pandas as pd
 
@@ -17,13 +18,16 @@ SHARE_X_AXIS = True
 
 cohort_dir = create_cohort_folder(deepcopy(COHORT_CONFIG_ALBUMIN_FOR_SEPSIS))
 cohort_name = cohort_dir.name
-expe_name = "estimates_20230712__est_lr_rf__bs_50"
-#    expe_name = "estimates_20230523__est_lr_rf__bs_10"
+expe_name = sys.argv[1]
 ### For IP matching, interesting results with RF which seems to overfit the data and results are dependents on the aggregation strategy.
 raw_results = pd.read_parquet(
     DIR2EXPERIENCES / cohort_name / expe_name / "logs"
 )
 
+if "feature_subset" in raw_results.columns:
+    raw_results = raw_results[
+        raw_results["feature_subset"].isin(["All confounders", "None"])
+    ]
 if IS_MAIN_FIGURE:
     # mask the first aggregation which does not affect the results
     mask_causal_estimator = raw_results["estimation_method"].isin(
@@ -95,7 +99,7 @@ print(
 )
 group_order = [NO_MODEL_GROUP_LABEL] + [
     ident_
-    for ident_ in list(IDENTIFICATION2LABELS.values())
+    for ident_ in list(dict.fromkeys(IDENTIFICATION2LABELS.values()))
     if ident_ in results["estimation_method"].unique()
 ]
 # %%

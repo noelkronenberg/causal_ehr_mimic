@@ -1,22 +1,21 @@
 # %%
+import sys
 import seaborn as sns
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from caumim.constants import DIR2DOCS_IMG, DIR2EXPERIENCES
 
+# usage: python reports/5_prediction_failure_report.py <post_treatment_dir> <pretreatment_dir> <random_classifier_dir>
 # %%
 post_treatment_results = pd.read_csv(
-    DIR2EXPERIENCES
-    / "predictive_failure__2023-07-21_14-58-34__obs_1__post_treatment_True/scores.csv"
+    DIR2EXPERIENCES / sys.argv[1] / "scores.csv"
 )
 pretreatment_results = pd.read_csv(
-    DIR2EXPERIENCES
-    / "predictive_failure__2023-07-25_22-04-47__obs_1__post_treatment_False/scores.csv"
+    DIR2EXPERIENCES / sys.argv[2] / "scores.csv"
 )
 random_classifier_results = pd.read_csv(
-    DIR2EXPERIENCES
-    / "predictive_failure__2023-07-26_18-28-05__obs_1__post_treatment_True_dummy_classifier/scores.csv"
+    DIR2EXPERIENCES / sys.argv[3] / "scores.csv"
 )
 # keep only the test set and rename
 
