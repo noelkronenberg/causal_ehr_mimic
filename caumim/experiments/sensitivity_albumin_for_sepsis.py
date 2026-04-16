@@ -25,7 +25,11 @@ from caumim.variables.selection import (
     get_event_covariates_albumin_zhou,
     FEATURE_DEMOGRAPHICS,
     FEATURE_SETS,
+    LABEL_ALL_FEATURES,
     LABEL_DEMOGRAPHICS,
+    LABEL_WO_DRUGS,
+    LABEL_WO_MEASUREMENTS,
+    LABEL_WO_MEASUREMENTS_AND_DRUGS,
 )
 from caumim.variables.utils import (
     feature_emergency_at_admission,
@@ -59,6 +63,13 @@ sensitivity_config = Bunch(
                 # "CausalForest",
             ],
             "estimator": [ESTIMATOR_RIDGE],  # ESTIMATOR_RF
+            "feature_subset": [
+                LABEL_ALL_FEATURES,
+                LABEL_DEMOGRAPHICS,
+                LABEL_WO_DRUGS,
+                LABEL_WO_MEASUREMENTS,
+                LABEL_WO_MEASUREMENTS_AND_DRUGS,
+            ],
         },
         "fraction": 1,
         "random_state": 0,
@@ -125,7 +136,7 @@ def run_sensitivity_experiment(config):
         "estimation_method": config.experience_grid_dict["estimation_method"],
         "estimator": config.experience_grid_dict["estimator"],
         "feature_subset": config.experience_grid_dict.get(
-            "feature_subset", FEATURE_SETS["All confounders"]
+            "feature_subset", [LABEL_ALL_FEATURES]
         ),
     }
     runs_to_be_launch = list(ParameterGrid(experience_grid_dict))

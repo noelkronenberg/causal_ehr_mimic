@@ -1,7 +1,3 @@
-# Ignore all files in this dir...
+# Ignore everything in data/
 *
-
-# ... except for this one.
 !.gitignore
-!experiences
-!experiences/**

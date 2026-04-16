@@ -28,6 +28,25 @@ from caumim.variables.utils import (
 )
 from caumim.utils import to_lazyframe, to_polars
 
+
+def _normalize_datetime_cols(lf: pl.LazyFrame) -> pl.LazyFrame:
+    """
+    Cast all Datetime columns to μs precision so heterogeneous sources can be vstacked.
+
+    Args:
+        lf (pl.LazyFrame): LazyFrame to normalize datetime columns.
+
+    Returns:
+        pl.LazyFrame: LazyFrame with datetime columns cast to μs precision.
+    """
+
+    casts = [
+        pl.col(name).cast(pl.Datetime)
+        for name, dtype in lf.schema.items()
+        if "Datetime" in str(dtype)
+    ]
+    return lf.with_columns(casts) if casts else lf
+
 from joblib import Memory
 
 location = "./cachedir"
@@ -460,7 +479,7 @@ def get_event_covariates_albumin_zhou(
         )
     )
     # Get all features together
-    event_features = pl.concat(event_list).collect()
+    event_features = pl.concat([_normalize_datetime_cols(e) for e in event_list]).collect()
     # Restrict to cohort and observation period (before inclusion start)
     event_features = event_features.filter(~event_features.is_duplicated())
 
