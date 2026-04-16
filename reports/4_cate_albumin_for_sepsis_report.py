@@ -204,7 +204,7 @@ for cate_feature_name in ["X_cate__White","X_cate__Female","X_cate__admission_ag
         cate_results = pd.DataFrame({k: run_results[k] for k in result_columns})
         cate_results["X_cate__admission_age_bin"] = cate_results["X_cate__admission_age"].apply(lambda x: x>=age_group_thres)
 
-        fig, ax = , add_albumin_label(
+        fig, ax = hist_plot_binary_treatment_hte(
             cate_feature_name=cate_feature_name,
             target_set="cate_predictions",
             cate_results=cate_results,
